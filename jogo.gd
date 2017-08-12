@@ -4,6 +4,7 @@ onready var Utils = preload("utils.gd").new().setup(cols, lins)
 
 export(int) var cols
 export(int) var lins
+onready var num_quadrados = cols * lins
 export(int) var tamanho_quadrado = 40
 export(int) var raio_movimento = 2
 
@@ -21,8 +22,10 @@ var estado
 func _ready():
 	randomize()
 	jogadores = [get_node("Tabuleiro/win98"), get_node("Tabuleiro/tux")]
-	get_node("HUD/Dominio/Jogador1/Cor").cor = jogadores[0].cor
-	get_node("HUD/Dominio/Jogador2/Cor").cor = jogadores[1].cor
+	jogadores[0].add_to_group(jogadores[0].nome)
+	jogadores[1].add_to_group(jogadores[1].nome)
+	get_node("HUD/Dominio/Jogador1/Cor").set_frame_color(jogadores[0].cor)
+	get_node("HUD/Dominio/Jogador2/Cor").set_frame_color(jogadores[1].cor)
 	novo_jogo()
 	set_process_input(true)
 
@@ -89,6 +92,10 @@ func calcula_dominio():
 				qtd_j2 += 1
 	get_node("HUD/Dominio/Jogador1/Valor").set_text(str(qtd_j1))
 	get_node("HUD/Dominio/Jogador2/Valor").set_text(str(qtd_j2))
+	if qtd_j1 > num_quadrados:
+		ganhou(jogadores[0])
+	elif qtd_j2 > num_quadrados:
+		ganhou(jogadores[1])
 
 ## Transforma posição no mundo pra índice no tabuleiro e vice-versa
 func pos2idx(pos):
@@ -110,6 +117,10 @@ func clicou(pos):
 		estado = "escolhe-acao"
 		get_node("Tabuleiro").set_acoes(null)
 
+## Alguém ganhou, YAY!
+func ganhou(j):
+	get_node("AlguemGanhou").popup(j)
+
 ## Jogador quer mover
 func _on_Mover_pressed():
 	if estado == "escolhe-acao":
@@ -118,3 +129,10 @@ func _on_Mover_pressed():
 	elif estado == "movendo":
 		estado = "escolhe-acao"
 		get_node("Tabuleiro").set_acoes(null)
+
+func _on_Sair_pressed():
+	get_tree().quit()
+
+func _on_Reiniciar_pressed():
+	get_node("AlguemGanhou").hide()
+	novo_jogo()

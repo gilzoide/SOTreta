@@ -2,10 +2,21 @@
 
 [ext_resource path="res://jogo.gd" type="Script" id=1]
 [ext_resource path="res://HUD.tres" type="Theme" id=2]
-[ext_resource path="res://cor_rect.gd" type="Script" id=3]
-[ext_resource path="res://tabuleiro.gd" type="Script" id=4]
-[ext_resource path="res://win98/win98.tscn" type="PackedScene" id=5]
-[ext_resource path="res://linux/tux.tscn" type="PackedScene" id=6]
+[ext_resource path="res://tabuleiro.gd" type="Script" id=3]
+[ext_resource path="res://win98/win98.tscn" type="PackedScene" id=4]
+[ext_resource path="res://linux/tux.tscn" type="PackedScene" id=5]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends PopupDialog
+
+func popup(jogador):
+	get_node(\"Titulo\").set_text(\"Parabéns, \" + jogador.nome + \"!\")
+	var logo = get_node(\"Logo\")
+	logo.set_texture(jogador.get_texture())
+	logo.set_scale(jogador.get_scale() * 4)
+	.popup()
+"
 
 [node name="jogo" type="Node"]
 
@@ -30,6 +41,7 @@ margin/bottom = 600.0
 
 [node name="Turno" type="Control" parent="HUD"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -74,6 +86,7 @@ max_lines_visible = -1
 
 [node name="BotoesAcao" type="Control" parent="HUD"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -150,6 +163,7 @@ flat = false
 
 [node name="Dominio" type="Control" parent="HUD"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -187,7 +201,7 @@ margin/top = 40.0
 margin/right = 200.0
 margin/bottom = 80.0
 
-[node name="Cor" type="Control" parent="HUD/Dominio/Jogador1"]
+[node name="Cor" type="ColorFrame" parent="HUD/Dominio/Jogador1"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -197,8 +211,7 @@ margin/left = 120.0
 margin/top = 0.0
 margin/right = 200.0
 margin/bottom = 40.0
-script/script = ExtResource( 3 )
-cor = null
+color = Color( 1, 1, 1, 0.492157 )
 
 [node name="Nome" type="Label" parent="HUD/Dominio/Jogador1"]
 
@@ -246,7 +259,7 @@ margin/top = 80.0
 margin/right = 200.0
 margin/bottom = 120.0
 
-[node name="Cor" type="Control" parent="HUD/Dominio/Jogador2"]
+[node name="Cor" type="ColorFrame" parent="HUD/Dominio/Jogador2"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -256,8 +269,7 @@ margin/left = 120.0
 margin/top = 0.0
 margin/right = 200.0
 margin/bottom = 40.0
-script/script = ExtResource( 3 )
-cor = null
+color = Color( 1, 1, 1, 0.490196 )
 
 [node name="Nome" type="Label" parent="HUD/Dominio/Jogador2"]
 
@@ -295,27 +307,274 @@ max_lines_visible = -1
 
 [node name="Tabuleiro" type="Control" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 200.0
-margin/top = 0.0
-margin/right = 240.0
-margin/bottom = 40.0
-script/script = ExtResource( 4 )
+margin/left = 240.0
+margin/top = 40.0
+margin/right = 280.0
+margin/bottom = 80.0
+script/script = ExtResource( 3 )
 cor_linha = Color( 1, 1, 1, 1 )
 cor_fundo = Color( 0, 0, 0, 1 )
 cor_acao = Color( 0, 1, 0, 0.5 )
 
-[node name="win98" parent="Tabuleiro" groups=[
-"win98",
-] instance=ExtResource( 5 )]
+[node name="win98" parent="Tabuleiro" instance=ExtResource( 4 )]
 
-[node name="tux" parent="Tabuleiro" groups=[
-"gnu/linux",
-] instance=ExtResource( 6 )]
+[node name="tux" parent="Tabuleiro" instance=ExtResource( 5 )]
+
+[node name="SaibaMais" type="Control" parent="."]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = ExtResource( 2 )
+margin/left = 680.0
+margin/top = 0.0
+margin/right = 800.0
+margin/bottom = 80.0
+
+[node name="Ajuda" type="Button" parent="SaibaMais"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 120.0
+margin/bottom = 40.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Ajuda"
+flat = false
+
+[node name="PopupDialog" type="PopupDialog" parent="SaibaMais/Ajuda"]
+
+editor/display_folded = true
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -560.0
+margin/top = 120.0
+margin/right = 0.0
+margin/bottom = 480.0
+popup/exclusive = false
+
+[node name="Label" type="Label" parent="SaibaMais/Ajuda/PopupDialog"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 80.0
+margin/top = 80.0
+margin/right = 480.0
+margin/bottom = 280.0
+text = "Um dia..."
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Creditos" type="Button" parent="SaibaMais"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 40.0
+margin/right = 120.0
+margin/bottom = 80.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Créditos"
+flat = false
+
+[node name="PopupDialog" type="PopupDialog" parent="SaibaMais/Creditos"]
+
+editor/display_folded = true
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -560.0
+margin/top = 80.0
+margin/right = 0.0
+margin/bottom = 440.0
+popup/exclusive = false
+
+[node name="Label" type="Label" parent="SaibaMais/Creditos/PopupDialog"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 80.0
+margin/top = 80.0
+margin/right = 240.0
+margin/bottom = 120.0
+text = "Programação:"
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Label 2" type="Label" parent="SaibaMais/Creditos/PopupDialog"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 160.0
+margin/top = 120.0
+margin/right = 400.0
+margin/bottom = 160.0
+text = "Gil Barbosa Reis"
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Label 3" type="Label" parent="SaibaMais/Creditos/PopupDialog"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 80.0
+margin/top = 200.0
+margin/right = 280.0
+margin/bottom = 240.0
+text = "Músicas e Sons:"
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Label 4" type="Label" parent="SaibaMais/Creditos/PopupDialog"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 160.0
+margin/top = 240.0
+margin/right = 360.0
+margin/bottom = 280.0
+text = "Lucas Toschi"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="AlguemGanhou" type="PopupDialog" parent="."]
+
+editor/display_folded = true
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = ExtResource( 2 )
+margin/left = 120.0
+margin/top = 120.0
+margin/right = 680.0
+margin/bottom = 480.0
+popup/exclusive = true
+script/script = SubResource( 1 )
+
+[node name="Titulo" type="Label" parent="AlguemGanhou"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 560.0
+margin/bottom = 40.0
+text = "Parabéns, você ganhou!"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Mensagem" type="Label" parent="AlguemGanhou"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 280.0
+margin/top = 80.0
+margin/right = 480.0
+margin/bottom = 240.0
+text = "Você dominou o mercado e deteve mais de metade dos usuários!"
+autowrap = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Logo" type="Sprite" parent="AlguemGanhou"]
+
+transform/pos = Vector2( 80, 80 )
+transform/scale = Vector2( 160, 160 )
+centered = false
+
+[node name="Reiniciar" type="Button" parent="AlguemGanhou"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 80.0
+margin/top = 280.0
+margin/right = 240.0
+margin/bottom = 320.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Reiniciar"
+flat = false
+
+[node name="Sair" type="Button" parent="AlguemGanhou"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 320.0
+margin/top = 280.0
+margin/right = 480.0
+margin/bottom = 320.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Sair"
+flat = false
 
 [connection signal="pressed" from="HUD/BotoesAcao/Mover" to="." method="_on_Mover_pressed"]
+
+[connection signal="pressed" from="SaibaMais/Ajuda" to="SaibaMais/Ajuda/PopupDialog" method="popup_centered"]
+
+[connection signal="pressed" from="SaibaMais/Creditos" to="SaibaMais/Creditos/PopupDialog" method="popup_centered"]
+
+[connection signal="pressed" from="AlguemGanhou/Reiniciar" to="." method="novo_jogo"]
+
+[connection signal="pressed" from="AlguemGanhou/Reiniciar" to="." method="_on_Reiniciar_pressed"]
+
+[connection signal="pressed" from="AlguemGanhou/Sair" to="." method="_on_Sair_pressed"]
 
 
