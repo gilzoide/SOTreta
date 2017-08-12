@@ -1,16 +1,125 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://jogo.gd" type="Script" id=1]
-[ext_resource path="res://win98/win98.tscn" type="PackedScene" id=2]
+[ext_resource path="res://HUD.tres" type="Theme" id=2]
+[ext_resource path="res://tabuleiro.gd" type="Script" id=3]
+[ext_resource path="res://win98/win98.tscn" type="PackedScene" id=4]
+[ext_resource path="res://tux/tux.tscn" type="PackedScene" id=5]
 
-[node name="Node2D" type="Node2D"]
+[node name="jogo" type="Node"]
 
 script/script = ExtResource( 1 )
+cols = 10
+lins = 10
+tamanho_quadrado = 40
 
-[node name="win98" parent="." instance=ExtResource( 2 )]
+[node name="HUD" type="Panel" parent="."]
 
-transform/pos = Vector2( 26.9942, 26.9942 )
-transform/scale = Vector2( 0.156431, 0.156431 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = ExtResource( 2 )
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 160.0
+margin/bottom = 600.0
+
+[node name="Label" type="Label" parent="HUD"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 80.0
+margin/bottom = 40.0
+text = "Turn:"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Turno" type="Label" parent="HUD"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 80.0
+margin/top = 0.0
+margin/right = 160.0
+margin/bottom = 40.0
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="BotaoMover" type="Button" parent="HUD"]
+
+rect/rotation = 0.255349
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 40.0
+margin/top = 40.0
+margin/right = 120.0
+margin/bottom = 80.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Mover"
+flat = false
+
+[node name="Botao1" type="Button" parent="HUD"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 40.0
+margin/top = 120.0
+margin/right = 120.0
+margin/bottom = 160.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Ação1"
+flat = false
+
+[node name="Botao2" type="Button" parent="HUD"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 40.0
+margin/top = 200.0
+margin/right = 120.0
+margin/bottom = 240.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Ação2"
+flat = false
+
+[node name="Tabuleiro" type="Node2D" parent="."]
+
+transform/pos = Vector2( 200, 0 )
+script/script = ExtResource( 3 )
+
+[node name="win98" parent="Tabuleiro" instance=ExtResource( 4 )]
+
+transform/scale = Vector2( 0.0826446, 0.0950119 )
 cor = null
+
+[node name="tux" parent="Tabuleiro" instance=ExtResource( 5 )]
+
+transform/pos = Vector2( 280, 240 )
+transform/scale = Vector2( 0.08, 0.0666667 )
 
 

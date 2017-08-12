@@ -1,60 +1,16 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=3 format=1]
 
-[ext_resource path="res://win98/win98.gd" type="Script" id=1]
-[ext_resource path="res://win98/logo.png" type="Texture" id=2]
-[ext_resource path="res://error.wav" type="Sample" id=3]
+[ext_resource path="res://win98/logo-outline.png" type="Texture" id=1]
+[ext_resource path="res://win98/win98.gd" type="Script" id=2]
 
-[sub_resource type="RectangleShape2D" id=1]
+[node name="win98" type="Sprite"]
 
-custom_solver_bias = 0.0
-extents = Vector2( 10, 10 )
-
-[sub_resource type="SampleLibrary" id=2]
-
-samples/error = {
-"db": 0.0,
-"pitch": 1.0,
-"priority": 0,
-"sample": ExtResource( 3 )
-}
-
-[node name="win98" type="KinematicBody2D"]
-
-input/pickable = false
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 16.1293, 6.75638, -5.36846, 12.8159, -1.90646, -7.47607 )
-shapes/0/trigger = false
-collision/layers = 1
-collision/mask = 1
-collision/margin = 0.08
-script/script = ExtResource( 1 )
+texture = ExtResource( 1 )
+centered = false
+script/script = ExtResource( 2 )
 velocidade = 50.0
 nome = "win98"
 cor = Color( 0, 0, 1, 1 )
 radius = 10
-
-[node name="Sprite" type="Sprite" parent="."]
-
-texture = ExtResource( 2 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-
-transform/pos = Vector2( -1.90646, -7.47607 )
-transform/rot = -22.7283
-transform/scale = Vector2( 17.4872, 13.8949 )
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
-
-[node name="SamplePlayer" type="SamplePlayer2D" parent="."]
-
-params/volume_db = 0.0
-params/pitch_scale = 1.0
-params/attenuation/min_distance = 1.0
-params/attenuation/max_distance = 2048.0
-params/attenuation/distance_exp = 1.0
-config/polyphony = 1
-config/samples = SubResource( 2 )
-config/pitch_random = 0.0
 
 
