@@ -4,7 +4,7 @@
 [ext_resource path="res://HUD.tres" type="Theme" id=2]
 [ext_resource path="res://tabuleiro.gd" type="Script" id=3]
 [ext_resource path="res://win98/win98.tscn" type="PackedScene" id=4]
-[ext_resource path="res://tux/tux.tscn" type="PackedScene" id=5]
+[ext_resource path="res://linux/tux.tscn" type="PackedScene" id=5]
 
 [node name="jogo" type="Node"]
 
@@ -12,6 +12,7 @@ script/script = ExtResource( 1 )
 cols = 10
 lins = 10
 tamanho_quadrado = 40
+raio_movimento = 2
 
 [node name="HUD" type="Panel" parent="."]
 
@@ -22,7 +23,7 @@ size_flags/vertical = 2
 theme/theme = ExtResource( 2 )
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 160.0
+margin/right = 200.0
 margin/bottom = 600.0
 
 [node name="Label" type="Label" parent="HUD"]
@@ -35,7 +36,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 80.0
 margin/bottom = 40.0
-text = "Turn:"
+text = "Turno:"
 align = 1
 valign = 1
 percent_visible = 1.0
@@ -50,7 +51,7 @@ size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 80.0
 margin/top = 0.0
-margin/right = 160.0
+margin/right = 200.0
 margin/bottom = 40.0
 align = 1
 valign = 1
@@ -58,7 +59,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="BotaoMover" type="Button" parent="HUD"]
+[node name="Mover" type="Button" parent="HUD"]
 
 rect/rotation = 0.255349
 focus/ignore_mouse = false
@@ -67,7 +68,7 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 40.0
 margin/top = 40.0
-margin/right = 120.0
+margin/right = 160.0
 margin/bottom = 80.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -75,7 +76,7 @@ shortcut = null
 text = "Mover"
 flat = false
 
-[node name="Botao1" type="Button" parent="HUD"]
+[node name="Acao1" type="Button" parent="HUD"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -83,7 +84,7 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 40.0
 margin/top = 120.0
-margin/right = 120.0
+margin/right = 160.0
 margin/bottom = 160.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -91,7 +92,7 @@ shortcut = null
 text = "Ação1"
 flat = false
 
-[node name="Botao2" type="Button" parent="HUD"]
+[node name="Acao2" type="Button" parent="HUD"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -99,7 +100,7 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 40.0
 margin/top = 200.0
-margin/right = 120.0
+margin/right = 160.0
 margin/bottom = 240.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -107,19 +108,42 @@ shortcut = null
 text = "Ação2"
 flat = false
 
-[node name="Tabuleiro" type="Node2D" parent="."]
+[node name="Acao3" type="Button" parent="HUD"]
 
-transform/pos = Vector2( 200, 0 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 40.0
+margin/top = 280.0
+margin/right = 160.0
+margin/bottom = 320.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Ação3"
+flat = false
+
+[node name="Tabuleiro" type="Control" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 200.0
+margin/top = 0.0
+margin/right = 240.0
+margin/bottom = 40.0
 script/script = ExtResource( 3 )
 
-[node name="win98" parent="Tabuleiro" instance=ExtResource( 4 )]
+[node name="win98" parent="Tabuleiro" groups=[
+"win98",
+] instance=ExtResource( 4 )]
 
-transform/scale = Vector2( 0.0826446, 0.0950119 )
-cor = null
+[node name="tux" parent="Tabuleiro" groups=[
+"gnu/linux",
+] instance=ExtResource( 5 )]
 
-[node name="tux" parent="Tabuleiro" instance=ExtResource( 5 )]
-
-transform/pos = Vector2( 280, 240 )
-transform/scale = Vector2( 0.08, 0.0666667 )
+[connection signal="pressed" from="HUD/Mover" to="." method="_on_Mover_pressed"]
 
 
