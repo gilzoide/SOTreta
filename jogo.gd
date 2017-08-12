@@ -123,10 +123,10 @@ func ganhou(j):
 
 ## Jogador quer mover
 func _on_Mover_pressed():
-	if estado == "escolhe-acao":
+	if estado == "escolhe-acao":  # Selecionou
 		get_node("Tabuleiro").set_acoes(Utils.acha_casas_no_raio(pos2idx(jogador.get_pos()), raio_movimento))
 		estado = "movendo"
-	elif estado == "movendo":
+	elif estado == "movendo":  # Cancelou
 		estado = "escolhe-acao"
 		get_node("Tabuleiro").set_acoes(null)
 
