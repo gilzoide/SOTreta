@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://jogo.gd" type="Script" id=1]
 [ext_resource path="res://HUD.tres" type="Theme" id=2]
-[ext_resource path="res://tabuleiro.gd" type="Script" id=3]
-[ext_resource path="res://win98/win98.tscn" type="PackedScene" id=4]
-[ext_resource path="res://linux/tux.tscn" type="PackedScene" id=5]
+[ext_resource path="res://cor_rect.gd" type="Script" id=3]
+[ext_resource path="res://tabuleiro.gd" type="Script" id=4]
+[ext_resource path="res://win98/win98.tscn" type="PackedScene" id=5]
+[ext_resource path="res://linux/tux.tscn" type="PackedScene" id=6]
 
 [node name="jogo" type="Node"]
 
@@ -13,6 +14,7 @@ cols = 10
 lins = 10
 tamanho_quadrado = 40
 raio_movimento = 2
+jogadores = null
 
 [node name="HUD" type="Panel" parent="."]
 
@@ -26,24 +28,34 @@ margin/top = 0.0
 margin/right = 200.0
 margin/bottom = 600.0
 
-[node name="Label" type="Label" parent="HUD"]
+[node name="Turno" type="Control" parent="HUD"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+
+[node name="Label" type="Label" parent="HUD/Turno"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 0.0
+margin/left = 10.0
 margin/top = 0.0
-margin/right = 80.0
+margin/right = 82.0
 margin/bottom = 40.0
 text = "Turno:"
-align = 1
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Turno" type="Label" parent="HUD"]
+[node name="Valor" type="Label" parent="HUD/Turno"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
@@ -53,13 +65,25 @@ margin/left = 80.0
 margin/top = 0.0
 margin/right = 200.0
 margin/bottom = 40.0
+text = "..."
 align = 1
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Mover" type="Button" parent="HUD"]
+[node name="BotoesAcao" type="Control" parent="HUD"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 40.0
+margin/right = 200.0
+margin/bottom = 320.0
+
+[node name="Mover" type="Button" parent="HUD/BotoesAcao"]
 
 rect/rotation = 0.255349
 focus/ignore_mouse = false
@@ -67,62 +91,207 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 40.0
+margin/top = 1.0
+margin/right = 160.0
+margin/bottom = 41.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "1. Mover"
+flat = false
+
+[node name="Acao1" type="Button" parent="HUD/BotoesAcao"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 40.0
+margin/top = 81.0
+margin/right = 160.0
+margin/bottom = 121.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "2. Ação1"
+flat = false
+
+[node name="Acao2" type="Button" parent="HUD/BotoesAcao"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 40.0
+margin/top = 161.0
+margin/right = 160.0
+margin/bottom = 201.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "3. Ação2"
+flat = false
+
+[node name="Acao3" type="Button" parent="HUD/BotoesAcao"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 40.0
+margin/top = 241.0
+margin/right = 160.0
+margin/bottom = 281.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "4. Ação3"
+flat = false
+
+[node name="Dominio" type="Control" parent="HUD"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 360.0
+margin/right = 200.0
+margin/bottom = 480.0
+
+[node name="Label" type="Label" parent="HUD/Dominio"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 10.0
+margin/top = 0.0
+margin/right = 120.0
+margin/bottom = 40.0
+text = "Domínio:"
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Jogador1" type="Control" parent="HUD/Dominio"]
+
+editor/display_folded = true
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
 margin/top = 40.0
-margin/right = 160.0
+margin/right = 200.0
 margin/bottom = 80.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-text = "Mover"
-flat = false
 
-[node name="Acao1" type="Button" parent="HUD"]
+[node name="Cor" type="Control" parent="HUD/Dominio/Jogador1"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 40.0
-margin/top = 120.0
-margin/right = 160.0
-margin/bottom = 160.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-text = "Ação1"
-flat = false
+margin/left = 120.0
+margin/top = 0.0
+margin/right = 200.0
+margin/bottom = 40.0
+script/script = ExtResource( 3 )
+cor = null
 
-[node name="Acao2" type="Button" parent="HUD"]
+[node name="Nome" type="Label" parent="HUD/Dominio/Jogador1"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 120.0
+margin/bottom = 40.0
+text = "win98"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Valor" type="Label" parent="HUD/Dominio/Jogador1"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 120.0
+margin/top = 0.0
+margin/right = 200.0
+margin/bottom = 40.0
+text = "..."
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Jogador2" type="Control" parent="HUD/Dominio"]
+
+editor/display_folded = true
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 80.0
+margin/right = 200.0
+margin/bottom = 120.0
+
+[node name="Cor" type="Control" parent="HUD/Dominio/Jogador2"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 40.0
-margin/top = 200.0
-margin/right = 160.0
-margin/bottom = 240.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-text = "Ação2"
-flat = false
+margin/left = 120.0
+margin/top = 0.0
+margin/right = 200.0
+margin/bottom = 40.0
+script/script = ExtResource( 3 )
+cor = null
 
-[node name="Acao3" type="Button" parent="HUD"]
+[node name="Nome" type="Label" parent="HUD/Dominio/Jogador2"]
 
-focus/ignore_mouse = false
+focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 40.0
-margin/top = 280.0
-margin/right = 160.0
-margin/bottom = 320.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-text = "Ação3"
-flat = false
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 120.0
+margin/bottom = 40.0
+text = "gnu/linux"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Valor" type="Label" parent="HUD/Dominio/Jogador2"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 120.0
+margin/top = 0.0
+margin/right = 200.0
+margin/bottom = 40.0
+text = "..."
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="Tabuleiro" type="Control" parent="."]
 
@@ -134,16 +303,19 @@ margin/left = 200.0
 margin/top = 0.0
 margin/right = 240.0
 margin/bottom = 40.0
-script/script = ExtResource( 3 )
+script/script = ExtResource( 4 )
+cor_linha = Color( 1, 1, 1, 1 )
+cor_fundo = Color( 0, 0, 0, 1 )
+cor_acao = Color( 0, 1, 0, 0.5 )
 
 [node name="win98" parent="Tabuleiro" groups=[
 "win98",
-] instance=ExtResource( 4 )]
+] instance=ExtResource( 5 )]
 
 [node name="tux" parent="Tabuleiro" groups=[
 "gnu/linux",
-] instance=ExtResource( 5 )]
+] instance=ExtResource( 6 )]
 
-[connection signal="pressed" from="HUD/Mover" to="." method="_on_Mover_pressed"]
+[connection signal="pressed" from="HUD/BotoesAcao/Mover" to="." method="_on_Mover_pressed"]
 
 

@@ -9,10 +9,9 @@ transform/scale = Vector2( 0.0826446, 0.0950119 )
 texture = ExtResource( 1 )
 centered = false
 script/script = ExtResource( 2 )
-velocidade = 50.0
 nome = "win98"
-cor = Color( 0, 0, 1, 1 )
-radius = 10
+cor = Color( 0, 0, 1, 0.492157 )
+raio = 1
 acoes = StringArray( "Paint", "Clippy", "Bsod" )
 
 

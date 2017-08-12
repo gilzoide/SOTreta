@@ -2,8 +2,8 @@
 extends Node2D
 
 export(String) var nome
-export(Color, RGB) var cor
-export var radius = 2
+export(Color, RGBA) var cor
+export var raio = 1
 export var acoes = StringArray()
 
 func _ready():
