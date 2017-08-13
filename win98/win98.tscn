@@ -6,6 +6,7 @@
 [node name="win98" type="Sprite"]
 
 transform/scale = Vector2( 0.0826446, 0.0950119 )
+z/z = 1
 texture = ExtResource( 1 )
 centered = false
 script/script = ExtResource( 2 )
@@ -13,5 +14,7 @@ nome = "win98"
 cor = Color( 0, 0, 1, 0.492157 )
 raio = 1
 acoes = StringArray( "Paint", "Clippy", "Bsod" )
+caminho_tabuleiro = null
+raio_clippy = 3
 
 

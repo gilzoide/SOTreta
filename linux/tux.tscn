@@ -6,6 +6,7 @@
 [node name="tux" type="Sprite"]
 
 transform/scale = Vector2( 0.08, 0.0666667 )
+z/z = 1
 texture = ExtResource( 1 )
 centered = false
 script/script = ExtResource( 2 )
@@ -13,5 +14,6 @@ nome = "gnu/linux"
 cor = Color( 1, 1, 0, 0.492157 )
 raio = 1
 acoes = StringArray( "Fork", "Exec", "Pipe" )
+caminho_tabuleiro = null
 
 

@@ -1,6 +1,6 @@
 extends Node
 
-onready var Utils = preload("utils.gd").new().setup(cols, lins)
+onready var Utils = get_node("/root/Utils").setup(cols, lins)
 
 export(int) var cols
 export(int) var lins
@@ -18,6 +18,8 @@ export(Array) var jogadores
 var tabuleiro
 # Estado atual da Máquina de Estados. Para saber mais, veja "maquina-estados.md"
 var estado
+# Possíveis posições no tabuleiro para uma ação específica
+var posicoes_acao = null
 
 func _ready():
 	randomize()
@@ -73,11 +75,11 @@ func troca_jogador():
 func calcula_dominio():
 	var time_win98 = get_tree().get_nodes_in_group("win98")
 	for o in time_win98:
-		for p in Utils.acha_casas_no_raio(pos2idx(o.get_pos()), o.raio, true):
+		for p in Utils.acha_casas_no_raio(pos2idx(o.get_pos()), o.raio):
 			tabuleiro[p.x][p.y] += 1
 	var time_linux = get_tree().get_nodes_in_group("gnu/linux")
 	for o in time_linux:
-		for p in Utils.acha_casas_no_raio(pos2idx(o.get_pos()), o.raio, true):
+		for p in Utils.acha_casas_no_raio(pos2idx(o.get_pos()), o.raio):
 			tabuleiro[p.x][p.y] -= 1
 	get_node("Tabuleiro").set_dominio(tabuleiro)
 	# calcula quantos quadradinhos estão dominados por cada time
@@ -96,6 +98,9 @@ func calcula_dominio():
 		ganhou(jogadores[0])
 	elif qtd_j2 > num_quadrados:
 		ganhou(jogadores[1])
+	var qtd_total = float(qtd_j1 + qtd_j2)
+	get_node("BGM/jogador1").set_volume(qtd_j1 / qtd_total)
+	get_node("BGM/jogador2").set_volume(qtd_j2 / qtd_total)
 
 ## Transforma posição no mundo pra índice no tabuleiro e vice-versa
 func pos2idx(pos):
@@ -104,35 +109,89 @@ func idx2pos(idx):
 	return idx * tamanho_quadrado
 
 ## Roda a máquina de estados, com ações específicas pra cada jogador
+var pipe_inicio = null
 func clicou(pos):
-	pos = pos2idx(pos)
-	print("Clique em", pos, "; ", estado)
-	if estado == "movendo":
-		var pos_jogador = pos2idx(jogador.get_pos())
-		var distancia = Utils.distancia_manhattan(pos, pos_jogador)
-		print(pos, pos_jogador, distancia)
-		if distancia > 0 and distancia <= raio_movimento:
-			jogador.set_pos(idx2pos(pos))
-			troca_jogador()
-		estado = "escolhe-acao"
-		get_node("Tabuleiro").set_acoes(null)
+	var idx = pos2idx(pos)
+	#print("Clique em", pos, "; ", estado)
+	if posicoes_acao != null and idx in posicoes_acao:
+		if estado == "movendo":
+			jogador.set_pos(idx2pos(idx))
+		elif estado == "acao1":
+			jogador.acao1(idx)
+		elif estado == "acao2":
+			jogador.acao2(idx)
+		elif estado == "acao3":
+			if jogador.nome == "win98":
+				jogador.acao3(idx)
+			else:
+				pipe_inicio = idx
+				# apaga o índice pra n clicar no mesmo lugar
+				for i in range(posicoes_acao.size()):
+					if posicoes_acao[i] == idx:
+						posicoes_acao.remove(i)
+						break
+				troca_estado("acao3-pipe")
+				return
+		elif estado == "acao3-pipe":
+			jogador.acao3(pipe_inicio, idx)
+			pipe_inicio = null
+		troca_jogador()
+		cancela_acao()
 
 ## Alguém ganhou, YAY!
 func ganhou(j):
 	get_node("AlguemGanhou").popup(j)
 
-## Jogador quer mover
-func _on_Mover_pressed():
-	if estado == "escolhe-acao":  # Selecionou
-		get_node("Tabuleiro").set_acoes(Utils.acha_casas_no_raio(pos2idx(jogador.get_pos()), raio_movimento))
-		estado = "movendo"
-	elif estado == "movendo":  # Cancelou
-		estado = "escolhe-acao"
-		get_node("Tabuleiro").set_acoes(null)
-
+## Sai do jogo
 func _on_Sair_pressed():
 	get_tree().quit()
-
+## Reinicia o jogo
 func _on_Reiniciar_pressed():
 	get_node("AlguemGanhou").hide()
 	novo_jogo()
+
+#################
+##    AÇÕES    ##
+#################
+
+## Troca pro estado `e`, settando as posições possíveis (pode ser `null`)
+func troca_estado(e):
+	estado = e
+	get_node("Tabuleiro").set_acoes(posicoes_acao)
+## Cancela uma ação, retornando à escolha
+func cancela_acao():
+	posicoes_acao = null
+	troca_estado("escolhe-acao")
+
+## Jogador quer mover
+func _on_Mover_pressed():
+	if estado != "movendo":  # Selecionou
+		posicoes_acao = Utils.acha_casas_no_raio(pos2idx(jogador.get_pos()),
+						                         raio_movimento)
+		troca_estado("movendo")
+	else:
+		cancela_acao()
+
+## Jogador quer ação 1
+func _on_Acao1_pressed():
+	if estado != "acao1":  # Selecionou
+		posicoes_acao = jogador.possibilidades_acao1(tabuleiro)
+		troca_estado("acao1")
+	else:
+		cancela_acao()
+
+## Jogador quer ação 2
+func _on_Acao2_pressed():
+	if estado != "acao2":  # Selecionou
+		posicoes_acao = jogador.possibilidades_acao2(tabuleiro)
+		troca_estado("acao2")
+	else:
+		cancela_acao()
+
+## Jogador quer ação 3
+func _on_Acao3_pressed():
+	if estado != "acao3":  # Selecionou
+		posicoes_acao = jogador.possibilidades_acao3(tabuleiro)
+		troca_estado("acao3")
+	else:
+		cancela_acao()

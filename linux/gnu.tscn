@@ -9,6 +9,7 @@ transform/scale = Vector2( 0.310078, 0.327869 )
 texture = ExtResource( 1 )
 centered = false
 script/script = ExtResource( 2 )
-raio = 1
+raio = 0
+acordado = null
 
 
