@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://win98/clippy.png" type="Texture" id=1]
+[ext_resource path="res://win98/clippy.gd" type="Script" id=2]
+
+[node name="clippy" type="Sprite"]
+
+transform/scale = Vector2( 0.0266667, 0.0266667 )
+texture = ExtResource( 1 )
+centered = false
+script/script = ExtResource( 2 )
+
+

@@ -44,7 +44,6 @@ jogadores = null
 
 [node name="HUD" type="Panel" parent="."]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -323,6 +322,7 @@ max_lines_visible = -1
 
 [node name="Tabuleiro" type="Control" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -359,7 +359,7 @@ theme/theme = ExtResource( 2 )
 margin/left = 680.0
 margin/top = 0.0
 margin/right = 800.0
-margin/bottom = 80.0
+margin/bottom = 120.0
 
 [node name="Ajuda" type="Button" parent="SaibaMais"]
 
@@ -501,6 +501,22 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
+[node name="Reiniciar" type="Button" parent="SaibaMais"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 80.0
+margin/right = 120.0
+margin/bottom = 120.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Reiniciar"
+flat = false
+
 [node name="AlguemGanhou" type="PopupDialog" parent="."]
 
 editor/display_folded = true
@@ -634,6 +650,8 @@ stream/buffering_ms = 500
 [connection signal="pressed" from="SaibaMais/Ajuda" to="SaibaMais/Ajuda/PopupDialog" method="popup_centered"]
 
 [connection signal="pressed" from="SaibaMais/Creditos" to="SaibaMais/Creditos/PopupDialog" method="popup_centered"]
+
+[connection signal="pressed" from="SaibaMais/Reiniciar" to="." method="_on_Reiniciar_pressed"]
 
 [connection signal="pressed" from="AlguemGanhou/Reiniciar" to="." method="novo_jogo"]
 

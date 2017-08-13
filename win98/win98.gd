@@ -2,6 +2,7 @@ extends "../Player.gd"
 
 const Paint = preload("res://win98/paint.tscn")
 const Bsod = preload("res://win98/bsod.tscn")
+const Clippy = preload("res://win98/clippy.tscn")
 
 export(int) var raio_clippy = 3
 
@@ -27,7 +28,9 @@ func acao1(idx):
 	Tabuleiro.spawna_pro_jogador(self, Paint, idx)
 ## Clippy: 
 func acao2(idx):
-	pass
+	var c = Clippy.instance()
+	c.setup(get_pos(), Tabuleiro.idx2pos(idx), idx)
+	Tabuleiro.add_child(c)
 ## Bsod: 
 func acao3(idx):
 	Tabuleiro.spawna_pro_jogador(self, Bsod, idx)

@@ -4,7 +4,7 @@ onready var Utils = get_node("/root/Utils").setup(cols, lins)
 
 export(int) var cols
 export(int) var lins
-onready var num_quadrados = cols * lins
+onready var min_quadrados_pra_ganhar = (cols * lins) / 2
 export(int) var tamanho_quadrado = 40
 export(int) var raio_movimento = 2
 
@@ -55,10 +55,13 @@ func novo_jogo():
 		for j in range(lins):
 			tabuleiro[i].append(0)
 	jogador_idx = randi() % 2
-	jogadores[0].set_pos(Vector2(0, 0))
-	jogadores[1].set_pos(Vector2(tamanho_quadrado * (cols - 1), tamanho_quadrado * (lins - 1)))
+	var idx_jogador1 = Vector2(randi() % lins, randi() % cols)
+	var idx_jogador2 = Vector2(randi() % lins, randi() % cols)
+	jogadores[0].set_pos(idx2pos(idx_jogador1))
+	jogadores[1].set_pos(idx2pos(idx_jogador2))
+	cancela_acao()
+	get_node("Tabuleiro").novo_jogo()
 	troca_jogador()
-	estado = "escolhe-acao"
 
 ## Troca a vez, settando as labels que precisar
 func troca_jogador():
@@ -94,9 +97,9 @@ func calcula_dominio():
 				qtd_j2 += 1
 	get_node("HUD/Dominio/Jogador1/Valor").set_text(str(qtd_j1))
 	get_node("HUD/Dominio/Jogador2/Valor").set_text(str(qtd_j2))
-	if qtd_j1 > num_quadrados:
+	if qtd_j1 > min_quadrados_pra_ganhar:
 		ganhou(jogadores[0])
-	elif qtd_j2 > num_quadrados:
+	elif qtd_j2 > min_quadrados_pra_ganhar:
 		ganhou(jogadores[1])
 	var qtd_total = float(qtd_j1 + qtd_j2)
 	get_node("BGM/jogador1").set_volume(qtd_j1 / qtd_total)
@@ -112,7 +115,6 @@ func idx2pos(idx):
 var pipe_inicio = null
 func clicou(pos):
 	var idx = pos2idx(pos)
-	#print("Clique em", pos, "; ", estado)
 	if posicoes_acao != null and idx in posicoes_acao:
 		if estado == "movendo":
 			jogador.set_pos(idx2pos(idx))

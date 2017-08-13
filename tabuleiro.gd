@@ -72,6 +72,7 @@ func spawna_pro_jogador(jogador, prefab, idx):
 	add_child(obj)
 	return obj
 
+## Mata um spawn na posição `idx` (se existir)
 func mata_spawn(idx):
 	if spawns.has(idx):
 		var obj = spawns[idx]
@@ -81,3 +82,8 @@ func mata_spawn(idx):
 ## Get em um spawn que tiver numa posição ae
 func get_spawn(idx):
 	return spawns[idx] if spawns.has(idx) else null
+
+func novo_jogo():
+	for s in spawns.values():
+		s.free()
+	spawns.clear()
