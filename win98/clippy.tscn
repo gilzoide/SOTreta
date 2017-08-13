@@ -5,9 +5,9 @@
 
 [node name="clippy" type="Sprite"]
 
+transform/pos = Vector2( 20, 20 )
 transform/scale = Vector2( 0.0266667, 0.0266667 )
 texture = ExtResource( 1 )
-centered = false
 script/script = ExtResource( 2 )
 
 

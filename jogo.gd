@@ -124,7 +124,8 @@ func clicou(pos):
 			jogador.acao2(idx)
 		elif estado == "acao3":
 			if jogador.nome == "win98":
-				jogador.acao3(idx)
+				jogador.acao3(idx, funcref(self, "proximo_turno"))
+				return
 			else:
 				pipe_inicio = idx
 				# apaga o índice pra n clicar no mesmo lugar
@@ -137,8 +138,11 @@ func clicou(pos):
 		elif estado == "acao3-pipe":
 			jogador.acao3(pipe_inicio, idx)
 			pipe_inicio = null
-		troca_jogador()
-		cancela_acao()
+		proximo_turno()
+
+func proximo_turno():
+	troca_jogador()
+	cancela_acao()
 
 ## Alguém ganhou, YAY!
 func ganhou(j):

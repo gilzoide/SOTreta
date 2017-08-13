@@ -76,8 +76,8 @@ func spawna_pro_jogador(jogador, prefab, idx):
 func mata_spawn(idx):
 	if spawns.has(idx):
 		var obj = spawns[idx]
-		obj.queue_free()
 		spawns.erase(idx)
+		obj.free()
 
 ## Get em um spawn que tiver numa posição ae
 func get_spawn(idx):

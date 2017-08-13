@@ -13,7 +13,7 @@ script/script = ExtResource( 2 )
 nome = "win98"
 cor = Color( 0, 0, 1, 0.492157 )
 raio = 1
-acoes = StringArray( "Paint", "Clippy", "Bsod" )
+acoes = StringArray( "Paint", "Bsod", "Clippy" )
 caminho_tabuleiro = null
 raio_clippy = 3
 

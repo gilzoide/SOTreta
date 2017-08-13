@@ -29,8 +29,8 @@ func _on_BGM_finished():
 	set_loop(true)
 	set_stream(preload(\"res://sons/musica.ogg\"))
 	play()
-	get_node(\"jogador1\").play()
-	get_node(\"jogador2\").play()
+	#get_node(\"jogador1\").play()
+	#get_node(\"jogador2\").play()
 "
 
 [node name="jogo" type="Node"]
@@ -398,11 +398,26 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 80.0
-margin/top = 80.0
-margin/right = 480.0
-margin/bottom = 280.0
-text = "Um dia..."
+margin/left = 40.0
+margin/top = 40.0
+margin/right = 520.0
+margin/bottom = 320.0
+text = "Detenha mais da metade dos pcs dos usuários e vença o jogo!"
+autowrap = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Label 2" type="Label" parent="SaibaMais/Ajuda/PopupDialog"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 40.0
+margin/top = 120.0
+margin/right = 240.0
+margin/bottom = 320.0
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -621,7 +636,7 @@ script/script = SubResource( 2 )
 
 stream/stream = ExtResource( 7 )
 stream/play = false
-stream/loop = true
+stream/loop = false
 stream/volume_db = 0.0
 stream/autoplay = false
 stream/paused = false
@@ -632,7 +647,7 @@ stream/buffering_ms = 500
 
 stream/stream = ExtResource( 8 )
 stream/play = false
-stream/loop = true
+stream/loop = false
 stream/volume_db = 0.0
 stream/autoplay = false
 stream/paused = false
